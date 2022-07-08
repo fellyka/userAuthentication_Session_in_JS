@@ -1,0 +1,7 @@
+If You decide to use .env file:
+Kindly run your js file with node -r dotenv/config index.js command if you don't want to import the package in your code.
+or your script should look like this:
+
+  "scripts": {
+    "start": "node -r dotenv/config app.js",
+  },
