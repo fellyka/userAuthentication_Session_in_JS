@@ -64,7 +64,8 @@ const Users = sequelize.define('user',{
 Users.sync({force:true})
       .then(()=>{return Users.create({username:'Jovial KANYIKI', password:'abc123', age:30, studying:false});})
       .then(()=>{return Users.create({username:'Roselyne NGALULA', password:'2707hj', age:20});})
-      .then((data)=>console.log(data.toJSON()))
+      .then((data)=>{console.log(data.toJSON())
+                     console.log('User added to database')})
       .catch((err)=>console.log(err))
 
 
