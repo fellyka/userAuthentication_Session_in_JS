@@ -36,7 +36,7 @@ const Users = sequelize.define('user',{
     user_id:{
         type: DataTypes.INTEGER,
         primaryKey: true, 
-        autoincrement: true
+        autoIncrement: true
     },
     username:{
         type: DataTypes.STRING,
@@ -49,7 +49,7 @@ const Users = sequelize.define('user',{
         type: DataTypes.INTEGER, 
         defaultValue:21
     }, 
-    Studying:{
+    studying:{
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
@@ -61,7 +61,13 @@ const Users = sequelize.define('user',{
    //paranoid: true To avoid deletin db entries definitly
 }
 );
-Users.sync({force:true}).then((data)=>console.log(`Table and model synced succesfully`)).catch((err)=>console.log(`Error ${err} syncing the table and model`))
+Users.sync({force:true})
+      .then(()=>{const user = Users.create({username:'Jovial KANYIKI', password:'abc123', age:30, studying:false});})
+      .then(()=>console.log(`User succesfully added to the database`))
+      .catch((err)=>console.log(err))
+
+
+//Users.sync({force:true}).then((data)=>console.log(`Table and model synced succesfully`)).catch((err)=>console.log(`Error ${err} syncing the table and model`))
 //Users.drop().then((data)=>console.log(`Table droped succesfully`)).catch((err)=>console.log(`Error ${err} table couldn't be dropped`))
 
 
