@@ -45,6 +45,9 @@ const Users = sequelize.define('user',{
     password:{
         type: DataTypes.STRING,
     },
+    gender:{
+        type:DataTypes.STRING(1)
+    },
     age:{
         type: DataTypes.INTEGER, 
         defaultValue:21
@@ -62,11 +65,41 @@ const Users = sequelize.define('user',{
 }
 );
 Users.sync({force:true})
-      .then(()=>{return Users.create({username:'Jovial KANYIKI', password:'abc123', age:30, studying:false});})
-      .then(()=>{return Users.create({username:'Roselyne NGALULA', password:'2707hj', age:20});})
-      .then((data)=>{console.log(data.toJSON())
-                     console.log('User added to database')})
+      .then(()=>{return Users.create({username:'Jovial KANYIKI', password:'abc123', age:30, studying:false, gender:'M'});})
+      .then(()=>{return Users.create({username:'Roselyne NGALULA', gender:'F',password:'2707hj', age:20});})
+      .then(()=>{return Users.bulkCreate([{username:'Francoise KANYIKI', password:'BVXu&%Kl',gender:'F', age:20},
+                                         {username:'Amani KANYIKI', password:'45op6ty',gender:'M',studying:false}]);
+     })
+
+      .then((data)=>{//console.log(data.toJSON())
+                     console.log('User added to database')
+                     console.log('-----------------------------------------')})
+
+      .then(()=>{ return Users.findAll()  
+      .then((data)=>{
+        console.log('\n\nData retrieved from Database (ALL)')
+        console.log('-----------------------------------------')
+        data.forEach((e)=>{
+             console.log(e.toJSON())})})
+      })  
+      .then(()=>{ return Users.findAll({attributes:['username'],where:{age:20}})  
+        .then((data)=>{
+          console.log('\n\nData retrieved from Database')
+          console.log('-----------------------------------------')
+          data.forEach((e)=>{
+               console.log(e.toJSON())})})
+        })  
+        .then(()=>{ return Users.findAll({order:[['age','DESC']]})  
+            .then((data)=>{
+              console.log('\n\nData retrieved from Database (By DESC Age)')
+              console.log('-----------------------------------------')
+              data.forEach((e)=>{
+                   console.log(e.toJSON())})})
+            })  
+
+     
       .catch((err)=>console.log(err))
+
 
 
 //Users.sync({force:true}).then((data)=>console.log(`Table and model synced succesfully`)).catch((err)=>console.log(`Error ${err} syncing the table and model`))
